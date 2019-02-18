@@ -107,7 +107,6 @@
         </Style>
     </Window.Resources>
 
-    
     <Grid >
         <TabControl Margin="5" TabStripPlacement="Top" 
                     Style="{StaticResource TabControlStyle}" FontSize="16">
