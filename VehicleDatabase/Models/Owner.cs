@@ -8,28 +8,10 @@ namespace VehicleDatabase.Models
 {
     public class Owner
     {
-        public string Name
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
+        public string Name { get; set; }
 
-        public string Address
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
+        public string Address { get; set; }
 
-        public string City
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
+        public string City { get; set; }
     }
 }

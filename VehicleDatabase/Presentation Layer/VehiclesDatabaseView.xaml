@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VehicleDatabase.Views"
         mc:Ignorable="d"
-        Title="Vehicle Database" Height="550" Width="800">
+        Title="Vehicle Database" Height="560" Width="1000">
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#FF3164a5" Offset="1"/>
@@ -13,6 +13,7 @@
         </LinearGradientBrush>
     </Window.Background>
     <Window.Resources>
+        <SolidColorBrush x:Key="MainTabColor" Color="#d4bbda"/>
 
         <SolidColorBrush x:Key="BorderBrush" Color="#FFFFFFFF"/>
         <SolidColorBrush x:Key="HoverBrush" Color="#FFFF4500"/>
@@ -59,6 +60,7 @@
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="Margin" Value="0,0,0,0"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabItem}">
@@ -105,20 +107,92 @@
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Margin" Value="0,2,0,0"/>
         </Style>
+
+        <Style x:Key="ListBoxItem_VehicleList" TargetType="ListBoxItem">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid Margin="0,2" Background="{StaticResource MainTabColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Image 
+                                    Source="{Binding SelectedProduct.ImageFilePath}" 
+                                    Stretch="Fill"  
+                                    Width="80"  />
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Height="30" Text=" Model: " />
+                                    <TextBlock Height="30" FontWeight="Regular" Text="{Binding SelectedProduct.Model}" />
+                                    <TextBlock Height="30" Text="  Year: " />
+                                    <TextBlock Height="30" FontWeight="Regular" Text="{Binding SelectedProduct.Year}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock Height="30" Text=" Brand: " />
+                                    <TextBlock Height="30" FontWeight="Regular" Text="{Binding SelectedProduct.Brand}" />
+                                    <TextBlock Height="30" Text="  Mileage: " />
+                                    <TextBlock Height="30" FontWeight="Regular" Text="{Binding SelectedProduct.Mileage}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>   
+            </Setter>            
+        </Style>
+
+        <Style  x:Key="ListBoxItem_MaintenanceList" TargetType="ListBoxItem">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Grid Margin="0,2" Background="LightSalmon">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--This needs attention-->
+                            <TextBlock Grid.Column="0" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                            <TextBlock Grid.Column="1" Text="Mileage"/> 
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TextBlock_Master" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="5,0,0,0"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+        </Style>
+
+        <Style x:Key="TextBox_Master" TargetType="TextBox">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Regular"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="2,0,0,2"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
 
     <Grid >
         <TabControl Margin="5" TabStripPlacement="Top" 
                     Style="{StaticResource TabControlStyle}" FontSize="16">
-            <TabItem Header="Current Vehicles" Background="LightSalmon" Height="35"  VerticalAlignment="Bottom" RenderTransformOrigin="0.516,-0.42">
-                <Border Margin="0" Background="LightSalmon">
+            <TabItem Header="Current Vehicles" Background="{StaticResource MainTabColor}" Height="35"  VerticalAlignment="Bottom" RenderTransformOrigin="0.516,-0.42">
+                <Border Margin="0" Background="{StaticResource MainTabColor}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" Margin="5,0,0,0">
                             <Grid Margin="5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -134,45 +208,357 @@
                                 <Label Grid.Row="1" Content="Address: " FontWeight="SemiBold" HorizontalContentAlignment="Right"/>
                                 <Label Grid.Row="2" Content="City: " FontWeight="SemiBold" HorizontalContentAlignment="Right"/>
 
-                                <Label Grid.Row="0" Grid.Column="1" Content="M. Harvey Fleet Co." FontWeight="Regular" HorizontalContentAlignment="Left"/>
-                                <Label Grid.Row="1" Grid.Column="1" Content="123 First St. " FontWeight="Regular" HorizontalContentAlignment="Left"/>
-                                <Label Grid.Row="2" Grid.Column="1" Content="Traverse City" FontWeight="Regular" HorizontalContentAlignment="Left"/>
+                                <Label Grid.Row="0" Grid.Column="1" Content="{Binding OwnerInfo.Name}" FontWeight="Regular" HorizontalContentAlignment="Left"/>
+                                <Label Grid.Row="1" Grid.Column="1" Content="{Binding OwnerInfo.Address}" FontWeight="Regular" HorizontalContentAlignment="Left"/>
+                                <Label Grid.Row="2" Grid.Column="1" Content="{Binding OwnerInfo.City}" FontWeight="Regular" HorizontalContentAlignment="Left"/>
                             </Grid>
 
+                            <Border BorderBrush="Black" BorderThickness=".5" Height="330">
+                                <ListBox Name="VehicleList" 
+                                     HorizontalContentAlignment="Stretch" 
+                                     ItemsSource="{Binding SelectedProduct}" 
+                                     Padding="5,0,0,0"
+                                     Background="{StaticResource MainTabColor}"
+                                     SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                                     IsSynchronizedWithCurrentItem="true">
+                                    <ListBoxItem Style="{StaticResource ListBoxItem_VehicleList}" />
+                                </ListBox>                  
+                            </Border>
 
-                            <ListBox 
+                            <Button x:Name="Button_Quit" Height="30" Width="100" HorizontalAlignment="Left" Margin="5" Content="Quit" Padding="0,0,0,3" Click="Button_Quit_Click"/>
+
+
+
+                            <!--<ListBox 
                                 x:Name="ListBox_ProductList"
                                 Grid.Row="1"
                                 Margin="10,10,10,10"
                                 BorderThickness="1"
                                 BorderBrush="Black"
                                 Background="LightSalmon"
-                                Height="350">
+                                Height="350"
 
-                                <!--ItemsSource="{Binding ActiveProducts}"
+                                ItemsSource="{Binding SelectedProduct}"
                                 SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-                                IsSynchronizedWithCurrentItem="true">-->
+                                IsSynchronizedWithCurrentItem="true">
                                 <ListBox.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:Name="ListBox_Item">
                                         <StackPanel Orientation="Horizontal">
                                             <Border Margin="5" BorderBrush="Black" BorderThickness="1" Height="40" Width="40">
-                                                <!--<Image Stretch="UniformToFill" Width="40" Height="40" />-->
+                                                --><!--<Image Stretch="UniformToFill" Width="40" Height="40" />--><!--
                                             </Border>
                                             <StackPanel Orientation="Vertical">
                                                 <TextBox Text="Model: Blazer"/>
-                                                <TextBox Text="{Binding Age, StringFormat='\{0\} years old',Mode=OneWay }" Style="{StaticResource MasterTextBoxStyle}"/>
-                                                <TextBox Text="{Binding AverageAnnualGross, StringFormat='\{0:C\}', Mode=OneWay}" Style="{StaticResource MasterTextBoxStyle}"/>
+                                                <TextBox Text="{Binding SelectedProduct.Model}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
-                                <Label/>
-                            </ListBox>
+                                <ListBoxItem
+                                    Content="{Binding ListBox_Item}"/>
+                            </ListBox>-->
                         </StackPanel>
 
-                        <Border Grid.Column="1" Height="450" Width="400" BorderThickness="1" BorderBrush="Black">
-                            <Label Content="Maintenance Record List"/>
-                        </Border>
+                        <TabControl Grid.Column="1"  Margin="5" TabStripPlacement="Top" Style="{StaticResource TabControlStyle}" FontSize="16">
+                            <TabItem Header="Vehicle Specifics" FontSize="15" Background="LightGoldenrodYellow" Height="35"  VerticalAlignment="Bottom" RenderTransformOrigin="0.516,-0.42">
+                                <Border Margin="0" Background="LightGoldenrodYellow" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="0"
+                                                       Text="Vehicle Type:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="1"
+                                                       Text="Model:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="2"
+                                                       Text="Sub_Model:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="3"
+                                                       Text="Color:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="4"
+                                                       Text="Brand:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="5"
+                                                       Text="Year:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="6"
+                                                       Text="Mileage:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="7"
+                                                       Text="Date of Purchase:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="8"
+                                                       Text="Initial Cost:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="9"
+                                                       Text="Overall Cost:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="10"
+                                                       Text="Engine Size:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="11"
+                                                       Text="Drive Train:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="12"
+                                                       Text="Number of Gears:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="13"
+                                                       Text="Fuel Type:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="14"
+                                                       Text="Fuel Economy:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="15"
+                                                       Text="Oil Capacity:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="16"
+                                                       Text="Oil Filter:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="17"
+                                                       Text="Air Filter:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="18"
+                                                       Text="Service Manual Link:"/>
+                                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="19"
+                                                       Text="Description / Notes:"/>
+
+                                            
+                                            
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="0"
+                                                     Text="{Binding SelectedProduct.VehicleType}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="1"
+                                                     Text="{Binding SelectedProduct.Model}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="2"
+                                                     Text="{Binding SelectedProduct.SubModel}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="3"
+                                                     Text="{Binding SelectedProduct.Color}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="4"
+                                                     Text="{Binding SelectedProduct.Brand}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="5"
+                                                     Text="{Binding SelectedProduct.Year}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="6"
+                                                     Text="{Binding SelectedProduct.Mileage}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="7"
+                                                     Text="{Binding SelectedProduct.DateOfPurchase}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="8"
+                                                     Text="{Binding SelectedProduct.InitialCost}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="9" IsReadOnly="True"
+                                                     Text="{Binding SelectedProduct.OverallCost}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="10"
+                                                     Text="{Binding SelectedProduct.EngineSize}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="11"
+                                                     Text="{Binding SelectedProduct.DriveTrain}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="12"
+                                                     Text="{Binding SelectedProduct.NumberOfGears}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="13"
+                                                     Text="{Binding SelectedProduct.FuelType}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="14"
+                                                     Text="{Binding SelectedProduct.FuelEconomy}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="15"
+                                                     Text="{Binding SelectedProduct.OilCapacity}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="16"
+                                                     Text="{Binding SelectedProduct.OilFilter}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="17"
+                                                     Text="{Binding SelectedProduct.AirFilter}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="18"
+                                                     Text="{Binding SelectedProduct.ServiceManualLink}"/>
+                                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="19"
+                                                     Text="{Binding SelectedProduct.Notes}"/>
+                                        </Grid>
+
+                                        <Image 
+                                            Grid.Column="1"
+                                            Source="{Binding SelectedProduct.ImageFilePath}" 
+                                            Stretch="Uniform"/>
+                                    </Grid>
+                                    
+
+                                </Border>
+                            </TabItem>
+                                                     
+                            <TabItem Header="Recorded Maintenance" FontSize="15" Background="LightSalmon" Height="35"  VerticalAlignment="Bottom" RenderTransformOrigin="0.516,-0.42">
+                                <Border Margin="0" Background="LightSalmon" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="14*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
+                                                <RadioButton IsChecked="True" Content="Mileage" FontWeight="Medium" Padding="2,-3,10,0"/>
+                                                <RadioButton Content="Date" FontWeight="Medium" Padding="2,-3,10,0"/>
+                                            </StackPanel>
+
+                                            <ListBox Grid.Row="1" Margin="5"/>
+                                            <Border Grid.Row="1" BorderBrush="Black" BorderThickness=".5" Margin="5">
+                                                <ListBox Name="MaintenanceList" 
+                                                     HorizontalContentAlignment="Stretch" 
+                                                     ItemsSource="{Binding SelectedProduct}" 
+                                                     Padding="5,0,0,0"
+                                                     Background="LightSalmon"
+                                                     SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                                                     IsSynchronizedWithCurrentItem="true">
+                                                    <ListBoxItem Style="{StaticResource ListBoxItem_MaintenanceList}"/>
+                                                </ListBox>
+                                            </Border>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="12*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="6*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="3*"/>
+                                                        <RowDefinition Height="4*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Grid.Row="0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlock_Master}" Text="Title:" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TextBlock_Master}" Text="Mileage:" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlock_Master}" Text="Prev/Required:" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TextBlock_Master}" Text="Date:" VerticalAlignment="Center"/>
+                                                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlock_Master}" Text="Overall Cost:" VerticalAlignment="Center"/>
+                                                        <Button Grid.Row="2" Grid.Column="2"  Grid.ColumnSpan="2" Height="30" Width="120" Content="Show Images"/>
+
+                                                        <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                        <TextBox Grid.Row="0" Grid.Column="3" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                        <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+
+
+
+
+                                                    </Grid>
+                                                    <Grid Grid.Row="1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="5*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Column="0" Grid.Row="0"  Style="{StaticResource TextBlock_Master}" Text="Parts Required:" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                                        <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBlock_Master}" Text="Tools Required:" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+                                                        <TextBox Grid.Column="0" Grid.Row="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].PartsRequired}"/>
+                                                        <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].ToolsRequired}"/>
+                                                    </Grid>                                                    
+                                                </Grid>                                                
+                                            </Grid>
+
+                                            <TextBlock Grid.Row="1" Style="{StaticResource TextBlock_Master}" Text="Notes:" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                            <TextBox Grid.Row="2" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].Description}"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </TabItem>
+                            
+                            <TabItem Header="New Maint. Entry" FontSize="15" Background="LightBlue" Height="35"  VerticalAlignment="Bottom" RenderTransformOrigin="0.516,-0.42">
+                                <Border Margin="0" Background="LightBlue" >
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="12*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="6*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="3*"/>
+                                                    <RowDefinition Height="4*"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid Grid.Row="0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlock_Master}" Text="Title:" VerticalAlignment="Center"/>
+                                                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TextBlock_Master}" Text="Mileage:" VerticalAlignment="Center"/>
+                                                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlock_Master}" Text="Prev/Required:" VerticalAlignment="Center"/>
+                                                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TextBlock_Master}" Text="Date:" VerticalAlignment="Center"/>
+                                                    <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlock_Master}" Text="Overall Cost:" VerticalAlignment="Center"/>
+                                                    <Button Grid.Row="2" Grid.Column="2" Height="30" Width="120" Content="Add Images"/>
+                                                    <Button Grid.Row="2" Grid.Column="3" Height="30" Width="120" Content="Save"/>
+
+                                                    <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                    <TextBox Grid.Row="0" Grid.Column="3" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                    <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                    <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+                                                    <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].MaintenanceTitle}"/>
+
+
+
+
+                                                </Grid>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="5*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Column="0" Grid.Row="0"  Style="{StaticResource TextBlock_Master}" Text="Parts Required:" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                                    <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBlock_Master}" Text="Tools Required:" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+                                                    <TextBox Grid.Column="0" Grid.Row="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].PartsRequired}"/>
+                                                    <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].ToolsRequired}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+
+                                        <TextBlock Grid.Row="1" Style="{StaticResource TextBlock_Master}" Text="Notes:" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                        <TextBox Grid.Row="2" Style="{StaticResource TextBox_Master}" Text="{Binding SelectedProduct.maintenanceRecord[0].Description}"/>
+                                    </Grid>
+                                </Border>
+                            </TabItem>
+                        </TabControl>
 
                     </Grid>
                 </Border>
@@ -182,7 +568,134 @@
 
             <TabItem Header="New Vehicle Entry" Background="YellowGreen" Height="35"  VerticalAlignment="Bottom" RenderTransformOrigin="0.516,-0.42">
                 <Border Margin="0" Background="YellowGreen" >
-                    <TextBlock Text="Intentionally Blank" FontWeight="Regular" Margin="0,0,0.333,0.333"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="0"
+                                                       Text="Vehicle Type:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="1"
+                                                       Text="Model:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="2"
+                                                       Text="Sub_Model:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="3"
+                                                       Text="Color:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="4"
+                                                       Text="Brand:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="5"
+                                                       Text="Year:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="6"
+                                                       Text="Mileage:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="7"
+                                                       Text="Date of Purchase:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="8"
+                                                       Text="Initial Cost:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="9"
+                                                       Text="Overall Cost:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="10"
+                                                       Text="Engine Size:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="11"
+                                                       Text="Drive Train:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="12"
+                                                       Text="Number of Gears:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="13"
+                                                       Text="Fuel Type:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="14"
+                                                       Text="Fuel Economy:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="15"
+                                                       Text="Oil Capacity:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="16"
+                                                       Text="Oil Filter:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="17"
+                                                       Text="Air Filter:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="18"
+                                                       Text="Service Manual Link:"/>
+                            <TextBlock Style="{StaticResource TextBlock_Master}" Grid.Column="0" Grid.Row="19"
+                                                       Text="Description / Notes:"/>
+
+
+
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="0"
+                                                     Text="{Binding SelectedProduct.VehicleType}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="1"
+                                                     Text="{Binding SelectedProduct.Model}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="2"
+                                                     Text="{Binding SelectedProduct.SubModel}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="3"
+                                                     Text="{Binding SelectedProduct.Color}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="4"
+                                                     Text="{Binding SelectedProduct.Brand}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="5"
+                                                     Text="{Binding SelectedProduct.Year}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="6"
+                                                     Text="{Binding SelectedProduct.Mileage}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="7"
+                                                     Text="{Binding SelectedProduct.DateOfPurchase}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="8"
+                                                     Text="{Binding SelectedProduct.InitialCost}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="9" IsReadOnly="True"
+                                                     Text="{Binding SelectedProduct.OverallCost}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="10"
+                                                     Text="{Binding SelectedProduct.EngineSize}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="11"
+                                                     Text="{Binding SelectedProduct.DriveTrain}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="12"
+                                                     Text="{Binding SelectedProduct.NumberOfGears}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="13"
+                                                     Text="{Binding SelectedProduct.FuelType}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="14"
+                                                     Text="{Binding SelectedProduct.FuelEconomy}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="15"
+                                                     Text="{Binding SelectedProduct.OilCapacity}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="16"
+                                                     Text="{Binding SelectedProduct.OilFilter}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="17"
+                                                     Text="{Binding SelectedProduct.AirFilter}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="18"
+                                                     Text="{Binding SelectedProduct.ServiceManualLink}"/>
+                            <TextBox Style="{StaticResource TextBox_Master}" Grid.Column="1" Grid.Row="19"
+                                                     Text="{Binding SelectedProduct.Notes}"/>
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                            <Border Height="300" Width="300" BorderBrush="Black" BorderThickness=".5">
+                                <TextBlock Height="30" Width="100" Text="Image Here"/>
+                            </Border>
+
+                            <Button Height="50" Width="150" Content="Add Image" Margin="15"/>
+                            <Button Height="50" Width="150" Content="Save" Margin="15"/>
+                        </StackPanel>
+                        
+                    </Grid>
                 </Border>
             </TabItem>
         </TabControl>

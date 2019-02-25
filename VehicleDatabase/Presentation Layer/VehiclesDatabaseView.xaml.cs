@@ -28,10 +28,10 @@ namespace VehicleDatabase.Views
 
         #region METHODS (pass events to view model)
 
-        //private void Button_Quit_Click(object sender, RoutedEventArgs e)
-        //{
-        //    _productWindowPresenter.QuitApplication();
-        //}
+        private void Button_Quit_Click(object sender, RoutedEventArgs e)
+        {
+            _vehicleDatabasePresenter.QuitApplication();
+        }
 
         #endregion
 
@@ -47,5 +47,22 @@ namespace VehicleDatabase.Views
         }
 
         #endregion
+
+
     }
+
+    //public partial class ListBoxDataBindingSample
+    //{
+    //    public ListBoxDataBindingSample()
+    //    {
+    //        List<Vehicle> vehicles = new List<Vehicle>();
+    //        items.Add(new TodoItem() { Title = "Complete this WPF tutorial", Completion = 45 });
+    //        items.Add(new TodoItem() { Title = "Learn C#", Completion = 80 });
+    //        items.Add(new TodoItem() { Title = "Wash the car", Completion = 0 });
+
+    //        lbTodoList.ItemsSource = items;
+    //    }
+    //}
+
+
 }

@@ -38,21 +38,16 @@ namespace VehicleDatabase.BusinessLayer
             // instantiate the view model and initialize the data set
             //
             _vehicleDatabasePresenter = new VehicleDatabasePresenter(GetOwnerData(), GetVehicleData());
-            //_vehicleDatabasePresenter = new VehicleDatabasePresenter(GetOwnerData(), GetVehicleData(), GetMaintenanceRecords());
 
 
             //
             // instantiate, set the data context, and show the Main Window
             //
+
             _vehicleDatabaseView = new VehiclesDatabaseViews(_vehicleDatabasePresenter);
             _vehicleDatabaseView.DataContext = _vehicleDatabasePresenter;
             _vehicleDatabaseView.Show();
         }
-
-        //private List<Vehicle.MaintenanceRecord> GetMaintenanceRecords()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         private Vehicle GetVehicleData()
         {
@@ -73,23 +68,40 @@ namespace VehicleDatabase.BusinessLayer
                 DriveTrain = "4WD",
                 NumberOfGears = 5,
                 FuelType = "Gasoline",
+                FuelEconomy = 17,
                 OilCapacity = 5,
                 OilFilter = "FIL 7060 (NAPA)",
                 AirFilter = "SFL 36117 (NAPA)",
-                maintenanceRecord = new Vehicle.MaintenanceRecord
+                ImageFileName = "Blazer.jpg",
+                maintenanceRecord = new List<Vehicle.MaintenanceRecord>
                 {
-                    MaintenanceDate = "05/12/2018",
-                    Mileage = 160000,
-                    PreventativeOrRequired = "Required",
-                    MaintenanceTitle = "Rear-Driver's Brake Caliper Replacement",
-                    ToolsRequired = new List<string> { "3/8\" Drive Rachet Wrench", "18mm Socket", "Hammer", "12mm Wrench", "Patience" },
-                    PartsRequired = new List<string> { "Brake Caliper Assembly", "Brake Discs", "Brake Pads", "DOT 3 Brake Fluid" },
-                    OverallCost = 140,
-                    Description = "Brake caliper had seized, destroying all brake components for R-D Wheel.",
-                    Images = ""
+                    new Vehicle.MaintenanceRecord()
+                    {
+                        MaintenanceDate = "05/12/2018",
+                        Mileage = 160000,
+                        PreventativeOrRequired = "Required",
+                        MaintenanceTitle = "Rear-Driver's Brake Caliper Replacement",
+                        ToolsRequired = new List<string> { "3/8\" Drive Rachet Wrench", "18mm Socket", "Hammer", "12mm Wrench", "Patience" },
+                        PartsRequired = new List<string> { "Brake Caliper Assembly", "Brake Discs", "Brake Pads", "DOT 3 Brake Fluid" },
+                        OverallCost = 140,
+                        Description = "Brake caliper had seized, destroying all brake components for R-D Wheel.",
+                        Images = ""
+                    }, // note the comma, this follows the same format as the properties of the parent class.
+
+                    new Vehicle.MaintenanceRecord()
+                    {
+                        MaintenanceDate = "05/12/2018",
+                        Mileage = 160000,
+                        PreventativeOrRequired = "Required",
+                        MaintenanceTitle = "Rear-Driver's Brake Caliper Replacement",
+                        ToolsRequired = new List<string> { "3/8\" Drive Rachet Wrench", "18mm Socket", "Hammer", "12mm Wrench", "Patience" },
+                        PartsRequired = new List<string> { "Brake Caliper Assembly", "Brake Discs", "Brake Pads", "DOT 3 Brake Fluid" },
+                        OverallCost = 140,
+                        Description = "Brake caliper had seized, destroying all brake components for R-D Wheel.",
+                        Images = ""
+                    }
                 }
             };
-
         }
 
         private Owner GetOwnerData()

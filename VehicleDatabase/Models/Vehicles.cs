@@ -8,193 +8,66 @@ namespace VehicleDatabase.Models
 {
     public class Vehicle
     {
-        public string VehicleType
+        public string _imageFileName;
+
+
+
+        public string VehicleType { get; set; }
+
+        public string Model { get; set; }
+
+        public string SubModel { get; set; }
+
+        public string Color { get; set; }
+
+        public string Brand { get; set; }
+
+        public int Year { get; set; }
+
+        public int Mileage { get; set; }
+
+        public string DateOfPurchase { get; set; }
+
+        public int InitialCost { get; set; }
+
+        public int OverallCost { get; set; }
+
+        public string EngineSize { get; set; }
+
+        public string TransmissionType { get; set; }
+
+        public string DriveTrain { get; set; }
+
+        public int NumberOfGears { get; set; }
+
+        public string FuelType { get; set; }
+
+        public int FuelEconomy { get; set; }
+
+        public int OilCapacity { get; set; }
+
+        public string OilFilter { get; set; }
+
+        public string AirFilter { get; set; }
+
+        public string ServiceManualLink { get; set; }
+
+        public string Notes { get; set; }
+
+        public string ImageFileName
         {
-            get => default(string);
-            set
-            {
-            }
+            get { return _imageFileName; }
+            set { _imageFileName = value; }
         }
 
-        public string Model
+        public string ImageFilePath
         {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string SubModel
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string Color
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string Brand
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public int Year
-        {
-            get => default(int);
-            set
-            {
-            }
-        }
-
-        public int Mileage
-        {
-            get => default(int);
-            set
-            {
-            }
-        }
-
-        public string DateOfPurchase
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public int InitialCost
-        {
-            get => default(int);
-            set
-            {
-            }
-        }
-
-        public int OverallCost
-        {
-            get => default(int);
-            set
-            {
-            }
-        }
-
-        public string EngineSize
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string TransmissionType
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string DriveTrain
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public int NumberOfGears
-        {
-            get => default(int);
-            set
-            {
-            }
-        }
-
-        public string FuelType
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public int FuelEconomy
-        {
-            get => default(int);
-            set
-            {
-            }
-        }
-
-        public int OilCapacity
-        {
-            get => default(int);
-            set
-            {
-            }
-        }
-
-        public string OilFilter
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string AirFilter
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string ServiceManualLink
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        public string Notes
-        {
-            get => default(string);
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Not sure what value type here
-        /// </summary>
-        public string Images
-        {
-            get => default(string);
-            set
-            {
-            }
+            get { return @"../Images/" + _imageFileName; }
         }
 
 
-
-
-        // instantiate one maintenance record for 'Vehicle' Class
-        public MaintenanceRecord maintenanceRecord = new MaintenanceRecord();
-
-        // instantiate a list of maintenance records for 'Vehicle' Class (doesn't work yet)
-        //public List<MaintenanceRecord> maintenanceRecord = new List<MaintenanceRecord>();
+        // instantiate a list of maintenance records for 'Vehicle' Class
+        public List<MaintenanceRecord> maintenanceRecord = new List<MaintenanceRecord>();
 
 
 
@@ -204,86 +77,32 @@ namespace VehicleDatabase.Models
             public List<string> toolsRequired = new List<string> { };
             public List<string> partsRequired = new List<string> { };
 
-            public string MaintenanceDate
-            {
-                get => default(string);
-                set
-                {
-                }
-            }
+            public string MaintenanceDate { get; set; }
 
-            public int Mileage
-            {
-                get => default(int);
-                set
-                {
-                }
-            }
+            public int Mileage { get; set; }
 
-            public string PreventativeOrRequired
-            {
-                get => default(string);
-                set
-                {
-                }
-            }
+            public string PreventativeOrRequired { get; set; }
 
-            public string MaintenanceTitle
-            {
-                get => default(string);
-                set
-                {
-                }
-            }
+            public string MaintenanceTitle { get; set; }
 
             /// <summary>
             /// Make this a list of values. DONE
             /// </summary>
-            public List<string> ToolsRequired
-            {
-                get => default(List<string>);
-                set
-                {
-                }
-            }
+            public List<string> ToolsRequired { get; set; }
 
             /// <summary>
             /// Make this a list of values. DONE
             /// </summary>
-            public List<string> PartsRequired
-            {
-                get => default(List<string>);
-                set
-                {
-                }
-            }
+            public List<string> PartsRequired { get; set; }
 
-            public int OverallCost
-            {
-                get => default(int);
-                set
-                {
-                }
-            }
+            public int OverallCost { get; set; }
 
-            public string Description
-            {
-                get => default(string);
-                set
-                {
-                }
-            }
+            public string Description { get; set; }
 
             /// <summary>
             /// Not sure what value type here
             /// </summary>
-            public string Images
-            {
-                get => default(string);
-                set
-                {
-                }
-            }
+            public string Images { get; set; }
         }
     }
 
